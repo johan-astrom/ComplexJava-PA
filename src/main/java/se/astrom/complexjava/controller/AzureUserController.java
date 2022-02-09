@@ -3,7 +3,8 @@ package se.astrom.complexjava.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.astrom.complexjava.dto.AzureUserDto;
+import se.astrom.complexjava.dto.AzureUserGetDto;
+import se.astrom.complexjava.dto.AzureUserPostDto;
 import se.astrom.complexjava.exception.AppEntityNotFoundException;
 import se.astrom.complexjava.service.AzureUserService;
 
@@ -13,14 +14,18 @@ public class AzureUserController {
 
     private AzureUserService azureUserService;
 
+    public AzureUserController(AzureUserService azureUserService) {
+        this.azureUserService = azureUserService;
+    }
+
     @GetMapping
-    public ResponseEntity<Iterable<AzureUserDto>> getAllAzureUsers(){
+    public ResponseEntity<Iterable<AzureUserGetDto>> getAllAzureUsers(){
         var users = azureUserService.getAzureUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<AzureUserDto> getAzureUserById(@PathVariable String id){
+    public ResponseEntity<AzureUserGetDto> getAzureUserById(@PathVariable String id){
         try {
             var user = azureUserService.getAzureUserById(id);
             return new ResponseEntity<>(user, HttpStatus.OK);
@@ -31,14 +36,14 @@ public class AzureUserController {
     }
 
     @PostMapping
-    public ResponseEntity<AzureUserDto> createAzureUser(AzureUserDto azureUserDto){
-        var user = azureUserService.createAzureUser(azureUserDto);
+    public ResponseEntity<AzureUserGetDto> createAzureUser(AzureUserPostDto azureUserPostDto){
+        var user = azureUserService.createAzureUser(azureUserPostDto);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<AzureUserDto> updateAzureUser(@PathVariable String id, AzureUserDto azureUserDto){
-        var user = azureUserService.updateAzureUser(id, azureUserDto);
+    public ResponseEntity<AzureUserGetDto> updateAzureUser(@PathVariable String id, AzureUserGetDto azureUserGetDto){
+        var user = azureUserService.updateAzureUser(id, azureUserGetDto);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

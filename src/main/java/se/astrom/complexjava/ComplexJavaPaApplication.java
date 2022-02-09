@@ -19,6 +19,7 @@ public class ComplexJavaPaApplication {
         return args -> {
             roleRepository.save(new ApplicationRole("USER"));
             roleRepository.save(new ApplicationRole("ADMIN"));
+            roleRepository.save(new ApplicationRole("MANAGER"));
         };
     }
 

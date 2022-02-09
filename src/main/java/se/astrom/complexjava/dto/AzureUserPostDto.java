@@ -3,13 +3,15 @@ package se.astrom.complexjava.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class AzureUserDto implements Serializable {
+public class AzureUserPostDto implements Serializable {
+    private final String id;
     private final String displayName;
     private final String userPrincipalName;
     private final String email;
     private final String mobilePhone;
 
-    public AzureUserDto(String displayName, String userPrincipalName, String email, String mobilePhone) {
+    public AzureUserPostDto(String id, String displayName, String userPrincipalName, String email, String mobilePhone) {
+        this.id = id;
         this.displayName = displayName;
         this.userPrincipalName = userPrincipalName;
         this.email = email;
@@ -36,7 +38,7 @@ public class AzureUserDto implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AzureUserDto entity = (AzureUserDto) o;
+        AzureUserPostDto entity = (AzureUserPostDto) o;
         return Objects.equals(this.displayName, entity.displayName) &&
                 Objects.equals(this.userPrincipalName, entity.userPrincipalName) &&
                 Objects.equals(this.email, entity.email) &&
