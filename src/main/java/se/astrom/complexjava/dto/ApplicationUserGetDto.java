@@ -3,12 +3,12 @@ package se.astrom.complexjava.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class ApplicationUserDto implements Serializable {
+public class ApplicationUserGetDto implements Serializable {
     private final Long id;
     private final String username;
     private final String password;
 
-    public ApplicationUserDto(Long id, String username, String password) {
+    public ApplicationUserGetDto(Long id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -32,7 +32,7 @@ public class ApplicationUserDto implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ApplicationUserDto entity = (ApplicationUserDto) o;
+        ApplicationUserGetDto entity = (ApplicationUserGetDto) o;
         return Objects.equals(this.id, entity.id) &&
                 Objects.equals(this.username, entity.username) &&
                 Objects.equals(this.password, entity.password);

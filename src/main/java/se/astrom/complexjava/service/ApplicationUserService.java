@@ -2,8 +2,7 @@ package se.astrom.complexjava.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import se.astrom.complexjava.dto.ApplicationUserDto;
-import se.astrom.complexjava.entity.ApplicationUser;
+import se.astrom.complexjava.dto.ApplicationUserGetDto;
 import se.astrom.complexjava.repository.ApplicationRoleRepository;
 import se.astrom.complexjava.repository.ApplicationUserRepository;
 
@@ -20,7 +19,7 @@ public class ApplicationUserService {
         this.roleRepository = roleRepository;
     }
 
-    public ApplicationUserDto createUser(ApplicationUserDto userDto){
+    public ApplicationUserGetDto createUser(ApplicationUserGetDto userDto){
         return null;
     }
 }
