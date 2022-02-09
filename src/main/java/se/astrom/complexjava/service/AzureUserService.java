@@ -21,7 +21,8 @@ public class AzureUserService {
     }
 
     public AzureUserDto getAzureUserById(String id){
-        AzureUser user = azureUserRepository.findById(id).orElseThrow(() -> new AppEntityNotFoundException("Azure user with the specified object id not found."));
+        AzureUser user = azureUserRepository.findById(id).orElseThrow(() ->
+                new AppEntityNotFoundException("Azure user with the specified object id not found."));
         return mapper.azureUserToAzureUserDto(user);
     }
 
@@ -29,8 +30,24 @@ public class AzureUserService {
         return mapper.azureUserIterableToAzureUserDto(azureUserRepository.findAll());
     }
 
+    public AzureUserDto createAzureUser(AzureUserDto azureUserDto){
+        return mapper.azureUserToAzureUserDto(azureUserRepository.save(mapper.azureUserDtoToAzureUser(azureUserDto)));
+    }
+
+    public AzureUserDto updateAzureUser(String id, AzureUserDto azureUserDto){
+        AzureUser userToUpdate = azureUserRepository.findById(id).orElseThrow(() ->
+                new AppEntityNotFoundException("Azure user with the specified object id not found."));
+        userToUpdate.setDisplayName(azureUserDto.getDisplayName());
+        userToUpdate.setEmail(azureUserDto.getEmail());
+        userToUpdate.setUserPrincipalName(azureUserDto.getUserPrincipalName());
+        userToUpdate.setMobilePhone(azureUserDto.getMobilePhone());
+
+        return mapper.azureUserToAzureUserDto(azureUserRepository.save(userToUpdate));
+    }
+
     public void deleteAzureUserById(String id){
-        AzureUser user = azureUserRepository.findById(id).orElseThrow(() -> new AppEntityNotFoundException("Azure user with the specified object id not found."));
+        AzureUser user = azureUserRepository.findById(id).orElseThrow(() ->
+                new AppEntityNotFoundException("Azure user with the specified object id not found."));
         azureUserRepository.deleteById(id);
     }
 }

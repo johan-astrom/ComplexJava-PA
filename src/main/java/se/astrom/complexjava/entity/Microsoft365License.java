@@ -1,9 +1,7 @@
 package se.astrom.complexjava.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Microsoft365License {
@@ -13,6 +11,8 @@ public class Microsoft365License {
     private Long id;
     private String name;
     private String skuId;
+    @OneToMany
+    private List<LicenseOption> licenseOptions;
 
     public Long getId() {
         return id;

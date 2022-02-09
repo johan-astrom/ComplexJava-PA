@@ -1,9 +1,6 @@
 package se.astrom.complexjava.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class LicenseOption {
@@ -14,6 +11,8 @@ public class LicenseOption {
     private String displayName;
     private String stringIdentifier;
     private String skuId;
+    @ManyToOne
+    private Microsoft365License license;
 
     public Long getId() {
         return id;
@@ -45,5 +44,13 @@ public class LicenseOption {
 
     public void setSkuId(String skuId) {
         this.skuId = skuId;
+    }
+
+    public Microsoft365License getLicense() {
+        return license;
+    }
+
+    public void setLicense(Microsoft365License license) {
+        this.license = license;
     }
 }
