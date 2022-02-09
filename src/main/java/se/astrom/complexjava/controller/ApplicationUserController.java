@@ -30,7 +30,7 @@ public class ApplicationUserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("signup")
     public ResponseEntity<ApplicationUserGetDto> createUser(@RequestBody ApplicationUserPostDto appUserPostDto){
         var createdUser = appUserService.createUser(appUserPostDto);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
