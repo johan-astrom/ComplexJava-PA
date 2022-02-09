@@ -17,19 +17,14 @@ public class ComplexJavaPaApplication {
     }
 
     @Bean
-    public CommandLineRunner initializeRoles(ApplicationRoleRepository roleRepository){
+    public CommandLineRunner initializeRoles(ApplicationRoleRepository roleRepository, ApplicationUserRepository userRepository){
         return args -> {
             roleRepository.save(new ApplicationRole("USER"));
             roleRepository.save(new ApplicationRole("ADMIN"));
             roleRepository.save(new ApplicationRole("MANAGER"));
-        };
-    }
 
-    @Bean
-    public CommandLineRunner createDefaultUser(ApplicationUserRepository userRepository){
-        return args -> {
             var appUser = new ApplicationUser("admin", "password");
-            appUser.grantRole(new ApplicationRole("ADMIN"));
+            appUser.grantRole(roleRepository.findByRole("ADMIN"));
             userRepository.save(new ApplicationUser());
         };
     }

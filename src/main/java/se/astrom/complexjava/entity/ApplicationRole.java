@@ -10,7 +10,7 @@ public class ApplicationRole {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String role;
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     private Set<ApplicationUser> users;
 
     public ApplicationRole() {
