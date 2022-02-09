@@ -25,6 +25,8 @@ public interface Microsoft365LicensesMapper {
 
     AzureUserDto azureUserToAzureUserDto(AzureUser azureUser);
 
+    Iterable<AzureUserDto> azureUserIterableToAzureUserDto(Iterable<AzureUser> azureUsers);
+
     LicenseOption licenseOptionDtoToLicenseOption(LicenseOptionDto licenseOptionDto);
 
     LicenseOptionDto licenseOptionToLicenseOptionDto(LicenseOption licenseOption);

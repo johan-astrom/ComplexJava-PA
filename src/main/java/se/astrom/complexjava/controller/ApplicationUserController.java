@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.astrom.complexjava.dto.ApplicationUserGetDto;
 import se.astrom.complexjava.dto.ApplicationUserPostDto;
-import se.astrom.complexjava.exception.EntityNotFoundException;
 import se.astrom.complexjava.service.ApplicationUserService;
 
 @RestController
