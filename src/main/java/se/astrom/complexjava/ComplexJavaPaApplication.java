@@ -23,9 +23,9 @@ public class ComplexJavaPaApplication {
             roleRepository.save(new ApplicationRole("ADMIN"));
             roleRepository.save(new ApplicationRole("MANAGER"));
 
-            var appUser = new ApplicationUser("admin", "password");
-            appUser.grantRole(roleRepository.findByRole("ADMIN"));
-            userRepository.save(new ApplicationUser());
+//            var appUser = new ApplicationUser("admin", "password");
+//            appUser.grantRole(roleRepository.findByRole("ADMIN"));
+//            userRepository.save(appUser);
         };
     }
 
