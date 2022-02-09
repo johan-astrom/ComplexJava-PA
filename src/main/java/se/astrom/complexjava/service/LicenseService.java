@@ -8,9 +8,13 @@ import se.astrom.complexjava.repository.Microsoft365LicenseRepository;
 @Service
 public class LicenseService {
 
-    private Microsoft365LicenseRepository licenseRepository;
-    private Microsoft365LicensesMapper mapper;
+    private final Microsoft365LicenseRepository licenseRepository;
+    private final Microsoft365LicensesMapper mapper;
 
+    public LicenseService(Microsoft365LicenseRepository licenseRepository, Microsoft365LicensesMapper mapper) {
+        this.licenseRepository = licenseRepository;
+        this.mapper = mapper;
+    }
 
     public Iterable<Microsoft365LicenseDto> getLicenses(){
         return mapper.licenseIterableToLicenseDtoIterable(licenseRepository.findAll());

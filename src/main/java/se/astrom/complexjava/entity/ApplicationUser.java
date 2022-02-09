@@ -15,6 +15,14 @@ public class ApplicationUser {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<ApplicationRole> roles = new HashSet<>();
 
+    public ApplicationUser() {
+    }
+
+    public ApplicationUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public void grantRole(ApplicationRole role){
         this.roles.add(role);
         role.getUsers().add(this);

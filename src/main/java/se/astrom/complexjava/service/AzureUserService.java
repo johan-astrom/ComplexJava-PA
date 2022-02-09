@@ -8,6 +8,8 @@ import se.astrom.complexjava.exception.AppEntityNotFoundException;
 import se.astrom.complexjava.mapper.Microsoft365LicensesMapper;
 import se.astrom.complexjava.repository.AzureUserRepository;
 
+import java.util.Objects;
+
 @Service
 public class AzureUserService {
 
@@ -36,10 +38,14 @@ public class AzureUserService {
     public AzureUserGetDto updateAzureUser(String id, AzureUserGetDto azureUserGetDto){
         AzureUser userToUpdate = azureUserRepository.findById(id).orElseThrow(() ->
                 new AppEntityNotFoundException("Azure user with the specified object id not found."));
-        userToUpdate.setDisplayName(azureUserGetDto.getDisplayName());
-        userToUpdate.setEmail(azureUserGetDto.getEmail());
-        userToUpdate.setUserPrincipalName(azureUserGetDto.getUserPrincipalName());
-        userToUpdate.setMobilePhone(azureUserGetDto.getMobilePhone());
+        userToUpdate.setDisplayName(
+                Objects.requireNonNullElse(azureUserGetDto.getDisplayName(), userToUpdate.getDisplayName()));
+        userToUpdate.setEmail(
+                Objects.requireNonNullElse(azureUserGetDto.getEmail(), userToUpdate.getEmail()));
+        userToUpdate.setUserPrincipalName(
+                Objects.requireNonNullElse(azureUserGetDto.getUserPrincipalName(), userToUpdate.getUserPrincipalName()));
+        userToUpdate.setMobilePhone(
+                Objects.requireNonNullElse(azureUserGetDto.getMobilePhone(), userToUpdate.getMobilePhone()));
 
         return mapper.azureUserToAzureUserDto(azureUserRepository.save(userToUpdate));
     }

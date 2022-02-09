@@ -20,7 +20,7 @@ public class ApplicationUserService {
     private final ApplicationRoleRepository roleRepository;
     private final Microsoft365LicensesMapper mapper;
 
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public ApplicationUserService(ApplicationUserRepository userRepository,
                                   ApplicationRoleRepository roleRepository,
