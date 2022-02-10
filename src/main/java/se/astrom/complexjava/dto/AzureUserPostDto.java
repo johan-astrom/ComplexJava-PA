@@ -18,6 +18,10 @@ public class AzureUserPostDto implements Serializable {
         this.mobilePhone = mobilePhone;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getDisplayName() {
         return displayName;
     }
@@ -53,6 +57,7 @@ public class AzureUserPostDto implements Serializable {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
+                "id = " + id + ", " +
                 "displayName = " + displayName + ", " +
                 "userPrincipalName = " + userPrincipalName + ", " +
                 "email = " + email + ", " +

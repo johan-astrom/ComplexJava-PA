@@ -36,7 +36,7 @@ public class AzureUserController {
     }
 
     @PostMapping
-    public ResponseEntity<AzureUserGetDto> createAzureUser(AzureUserPostDto azureUserPostDto){
+    public ResponseEntity<AzureUserGetDto> createAzureUser(@RequestBody AzureUserPostDto azureUserPostDto){
         var user = azureUserService.createAzureUser(azureUserPostDto);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
