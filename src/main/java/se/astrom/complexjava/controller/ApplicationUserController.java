@@ -30,8 +30,14 @@ public class ApplicationUserController {
     }
 
     @PostMapping("signup")
-    public ResponseEntity<ApplicationUserGetDto> createUser(@RequestBody ApplicationUserPostDto appUserPostDto){
-        var createdUser = appUserService.createUser(appUserPostDto);
+    public ResponseEntity<ApplicationUserGetDto> userSignup(@RequestBody ApplicationUserPostDto appUserPostDto){
+        var createdUser = appUserService.createUser(appUserPostDto, "USER");
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    }
+
+    @PostMapping("createUserWithRole")
+    public ResponseEntity<ApplicationUserGetDto> createUser(@RequestBody ApplicationUserPostDto appUserPostDto, @RequestParam String role){
+        var createdUser = appUserService.createUser(appUserPostDto, role);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 

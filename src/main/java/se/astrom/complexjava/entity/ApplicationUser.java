@@ -12,7 +12,7 @@ public class ApplicationUser {
     private Long id;
     private String username;
     private String password;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<ApplicationRole> roles = new HashSet<>();
 
     public ApplicationUser() {

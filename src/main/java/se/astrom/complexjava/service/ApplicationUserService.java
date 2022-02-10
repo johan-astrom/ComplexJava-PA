@@ -30,10 +30,10 @@ public class ApplicationUserService {
         this.mapper = mapper;
     }
 
-    public ApplicationUserGetDto createUser(ApplicationUserPostDto userPostDto){
+    public ApplicationUserGetDto createUser(ApplicationUserPostDto userPostDto, String role){
         ApplicationUser appUser = mapper.appUserPostDtoToAppUser(userPostDto);
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
-        ApplicationRole roleToGrant = roleRepository.findByRole("USER");
+        ApplicationRole roleToGrant = roleRepository.findByRole("ROLE_" + role);
         appUser.grantRole(roleToGrant);
         return mapper.appUserToAppUserGetDto(userRepository.save(appUser));
     }

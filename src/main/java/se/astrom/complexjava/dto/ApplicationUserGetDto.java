@@ -1,7 +1,11 @@
 package se.astrom.complexjava.dto;
 
+import se.astrom.complexjava.entity.ApplicationRole;
+
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class ApplicationUserGetDto implements Serializable {
     private final Long id;
@@ -12,7 +16,6 @@ public class ApplicationUserGetDto implements Serializable {
         this.id = id;
         this.username = username;
         this.password = password;
-
     }
 
     public Long getId() {

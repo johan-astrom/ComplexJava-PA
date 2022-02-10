@@ -15,6 +15,10 @@ public class LicenseController {
 
     private LicenseService licenseService;
 
+    public LicenseController(LicenseService licenseService) {
+        this.licenseService = licenseService;
+    }
+
     @GetMapping
     public ResponseEntity<Iterable<Microsoft365LicenseDto>> getLicenses(){
         var licenses = licenseService.getLicenses();
