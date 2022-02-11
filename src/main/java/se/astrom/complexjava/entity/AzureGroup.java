@@ -9,18 +9,18 @@ import java.util.List;
 public class AzureGroup {
 
     @Id
-    private String AzureObjectId;
+    private String azureObjectId;
     private String displayName;
     private String description;
     @ManyToMany
     private List<AzureUser> azureUsers;
 
     public String getAzureObjectId() {
-        return AzureObjectId;
+        return azureObjectId;
     }
 
     public void setAzureObjectId(String azureObjectId) {
-        AzureObjectId = azureObjectId;
+        this.azureObjectId = azureObjectId;
     }
 
     public String getDisplayName() {

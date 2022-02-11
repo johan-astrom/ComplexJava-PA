@@ -21,6 +21,10 @@ public interface Microsoft365LicensesMapper {
 
     AzureGroupDto azureGroupToAzureGroupDto(AzureGroup azureGroup);
 
+    Iterable<AzureGroupDto> azureGroupIterableToAzureGroupDtoIterable(Iterable<AzureGroup> azureGroups);
+
+    AzureGroupMembersDto azureGroupToAzureGroupMembersDto(AzureGroup azureGroup);
+
     AzureUser azureUserGetDtoToAzureUser(AzureUserGetDto azureUserGetDto);
 
     AzureUser azureUserPostDtoToAzureUser(AzureUserPostDto azureUserGetDto);

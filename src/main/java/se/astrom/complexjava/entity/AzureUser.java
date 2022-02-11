@@ -17,6 +17,11 @@ public class AzureUser {
     @ManyToMany
     private List<AzureGroup> azureGroups;
 
+    public void addToGroup(AzureGroup group){
+        this.azureGroups.add(group);
+        group.getAzureUsers().add(this);
+    }
+
     public String getAzureObjectId() {
         return AzureObjectId;
     }
