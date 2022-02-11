@@ -10,7 +10,7 @@
     </parent>
     <groupId>se.astrom</groupId>
     <artifactId>ComplexJava-PA-Astrom</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>ComplexJava-PA</name>
     <description>ComplexJava-PA</description>
     <properties>
