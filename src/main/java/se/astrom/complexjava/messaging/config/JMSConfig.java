@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 @Configuration
 public class JMSConfig {
 
-    public static final String QUEUE_NAME = "m365licenses-queue";
+    public static final String M_365_LICENSES_QUEUE = "m365licenses-queue";
 
     @Bean
     public MessageConverter messageConverter() {
