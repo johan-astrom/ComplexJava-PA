@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import se.astrom.complexjava.dto.AzureUserGetDto;
 import se.astrom.complexjava.dto.AzureUserPostDto;
 import se.astrom.complexjava.entity.AzureUser;
-import se.astrom.complexjava.exception.AppEntityNotFoundException;
+import se.astrom.complexjava.exception.ServiceEntityNotFoundException;
 import se.astrom.complexjava.mapper.Microsoft365LicensesMapper;
 import se.astrom.complexjava.repository.AzureUserRepository;
 
@@ -26,7 +26,7 @@ public class AzureUserService {
 
     public AzureUserGetDto getAzureUserById(String id) {
         AzureUser user = azureUserRepository.findById(id).orElseThrow(() ->
-                new AppEntityNotFoundException("Azure user with the specified object id not found."));
+                new ServiceEntityNotFoundException("Azure user with the specified object id not found."));
         return mapper.azureUserToAzureUserDto(user);
     }
 
@@ -43,7 +43,7 @@ public class AzureUserService {
 
     public AzureUserGetDto updateAzureUser(String id, AzureUserGetDto azureUserGetDto) {
         AzureUser userToUpdate = azureUserRepository.findById(id).orElseThrow(() ->
-                new AppEntityNotFoundException("Azure user with the specified object id not found."));
+                new ServiceEntityNotFoundException("Azure user with the specified object id not found."));
         userToUpdate.setDisplayName(
                 Objects.requireNonNullElse(azureUserGetDto.getDisplayName(), userToUpdate.getDisplayName()));
         userToUpdate.setEmail(
@@ -58,7 +58,7 @@ public class AzureUserService {
 
     public void deleteAzureUserById(String id) {
         AzureUser user = azureUserRepository.findById(id).orElseThrow(() ->
-                new AppEntityNotFoundException("Azure user with the specified object id not found."));
+                new ServiceEntityNotFoundException("Azure user with the specified object id not found."));
         azureUserRepository.deleteById(id);
     }
 }

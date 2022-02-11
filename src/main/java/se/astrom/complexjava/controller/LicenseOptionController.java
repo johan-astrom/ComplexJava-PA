@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.astrom.complexjava.dto.LicenseOptionDto;
+import se.astrom.complexjava.exception.ControllerEntityNotFoundException;
+import se.astrom.complexjava.exception.ServiceEntityNotFoundException;
 import se.astrom.complexjava.service.LicenseOptionService;
 
 @RestController
@@ -24,7 +26,11 @@ public class LicenseOptionController {
 
     @PostMapping
     public ResponseEntity<LicenseOptionDto> createLicenseOption(@RequestBody LicenseOptionDto licenseOptionDto, @RequestParam Long licenseId){
-        var option = licenseOptionService.createLicenseOption(licenseOptionDto, licenseId);
-        return new ResponseEntity<>(option, HttpStatus.CREATED);
+        try {
+            var option = licenseOptionService.createLicenseOption(licenseOptionDto, licenseId);
+            return new ResponseEntity<>(option, HttpStatus.CREATED);
+        }catch (ServiceEntityNotFoundException e){
+            throw new ControllerEntityNotFoundException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 }

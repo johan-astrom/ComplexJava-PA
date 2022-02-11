@@ -5,7 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.astrom.complexjava.dto.AzureUserGetDto;
 import se.astrom.complexjava.dto.AzureUserPostDto;
-import se.astrom.complexjava.exception.AppEntityNotFoundException;
+import se.astrom.complexjava.exception.ControllerEntityNotFoundException;
+import se.astrom.complexjava.exception.ServiceEntityNotFoundException;
 import se.astrom.complexjava.service.AzureUserService;
 
 @RestController
@@ -30,8 +31,8 @@ public class AzureUserController {
             var user = azureUserService.getAzureUserById(id);
             return new ResponseEntity<>(user, HttpStatus.OK);
 
-        }catch(AppEntityNotFoundException e){
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }catch (ServiceEntityNotFoundException e){
+            throw new ControllerEntityNotFoundException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
@@ -43,13 +44,21 @@ public class AzureUserController {
 
     @PatchMapping("{id}")
     public ResponseEntity<AzureUserGetDto> updateAzureUser(@PathVariable String id, @RequestBody AzureUserGetDto azureUserGetDto){
-        var user = azureUserService.updateAzureUser(id, azureUserGetDto);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        try {
+            var user = azureUserService.updateAzureUser(id, azureUserGetDto);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }catch (ServiceEntityNotFoundException e){
+            throw new ControllerEntityNotFoundException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteAzureUser(@PathVariable String id){
-        azureUserService.deleteAzureUserById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        try {
+            azureUserService.deleteAzureUserById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (ServiceEntityNotFoundException e){
+            throw new ControllerEntityNotFoundException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 }

@@ -3,7 +3,7 @@ package se.astrom.complexjava.service;
 import org.springframework.stereotype.Service;
 import se.astrom.complexjava.dto.AzureGroupDto;
 import se.astrom.complexjava.dto.AzureGroupMembersDto;
-import se.astrom.complexjava.exception.AppEntityNotFoundException;
+import se.astrom.complexjava.exception.ServiceEntityNotFoundException;
 import se.astrom.complexjava.mapper.Microsoft365LicensesMapper;
 import se.astrom.complexjava.repository.AzureGroupRepository;
 import se.astrom.complexjava.repository.AzureUserRepository;
@@ -26,7 +26,7 @@ public class AzureGroupService {
     }
 
     public AzureGroupMembersDto getGroupMembers(String azureGroupId){
-        var group = groupRepository.findById(azureGroupId).orElseThrow(() -> new AppEntityNotFoundException("No group found with the specified id."));
+        var group = groupRepository.findById(azureGroupId).orElseThrow(() -> new ServiceEntityNotFoundException("No group found with the specified id."));
         return mapper.azureGroupToAzureGroupMembersDto(group);
     }
 
@@ -37,8 +37,8 @@ public class AzureGroupService {
     }
 
     public AzureGroupMembersDto addMemberToGroup(String azureUserId, String azureGroupId){
-        var user = userRepository.findById(azureUserId).orElseThrow(() -> new AppEntityNotFoundException("No user found with the specified id."));
-        var group = groupRepository.findById(azureGroupId).orElseThrow(() -> new AppEntityNotFoundException("No group found with the specified id."));
+        var user = userRepository.findById(azureUserId).orElseThrow(() -> new ServiceEntityNotFoundException("No user found with the specified id."));
+        var group = groupRepository.findById(azureGroupId).orElseThrow(() -> new ServiceEntityNotFoundException("No group found with the specified id."));
         user.addToGroup(group);
         userRepository.save(user);
         return mapper.azureGroupToAzureGroupMembersDto(groupRepository.save(group));

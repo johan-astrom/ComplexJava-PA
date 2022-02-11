@@ -7,6 +7,7 @@ import se.astrom.complexjava.dto.ApplicationUserPostDto;
 import se.astrom.complexjava.entity.ApplicationRole;
 import se.astrom.complexjava.entity.ApplicationUser;
 import se.astrom.complexjava.exception.AppAuthorizationException;
+import se.astrom.complexjava.exception.ServiceEntityNotFoundException;
 import se.astrom.complexjava.mapper.Microsoft365LicensesMapper;
 import se.astrom.complexjava.repository.ApplicationRoleRepository;
 import se.astrom.complexjava.repository.ApplicationUserRepository;
@@ -40,12 +41,12 @@ public class ApplicationUserService {
     }
 
     public void deleteUserById(Long id){
-        ApplicationUser appUser = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        ApplicationUser appUser = userRepository.findById(id).orElseThrow(() -> new ServiceEntityNotFoundException("No user found with the specified id."));
         userRepository.deleteById(appUser.getId());
     }
 
     public ApplicationUserGetDto getUserById(Long id){
-        return mapper.appUserToAppUserGetDto(userRepository.findById(id).orElseThrow(EntityNotFoundException::new));
+        return mapper.appUserToAppUserGetDto(userRepository.findById(id).orElseThrow(() -> new ServiceEntityNotFoundException("No user found with the specified id.")));
     }
 
     public Iterable<ApplicationUserGetDto> getUsers(){

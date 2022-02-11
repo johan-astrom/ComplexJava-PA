@@ -3,8 +3,12 @@ package se.astrom.complexjava.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import se.astrom.complexjava.dto.ApplicationUserGetDto;
 import se.astrom.complexjava.dto.ApplicationUserPostDto;
+import se.astrom.complexjava.exception.AppAuthorizationException;
+import se.astrom.complexjava.exception.ControllerEntityNotFoundException;
+import se.astrom.complexjava.exception.ServiceEntityNotFoundException;
 import se.astrom.complexjava.service.ApplicationUserService;
 
 @RestController
@@ -25,8 +29,12 @@ public class ApplicationUserController {
 
     @GetMapping("{id}")
     public ResponseEntity<ApplicationUserGetDto> getUserById(@PathVariable Long id) {
-        var user = appUserService.getUserById(id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        try {
+            var user = appUserService.getUserById(id);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }catch (ServiceEntityNotFoundException e){
+            throw new ControllerEntityNotFoundException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PostMapping("signup")
@@ -37,13 +45,21 @@ public class ApplicationUserController {
 
     @PostMapping("createUserWithRole")
     public ResponseEntity<ApplicationUserGetDto> createUser(@RequestBody ApplicationUserPostDto appUserPostDto, @RequestParam String role){
-        var createdUser = appUserService.createUser(appUserPostDto, role);
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+        try {
+            var createdUser = appUserService.createUser(appUserPostDto, role);
+            return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+        }catch (AppAuthorizationException e){
+            throw new ControllerEntityNotFoundException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable Long id){
-        appUserService.deleteUserById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        try {
+            appUserService.deleteUserById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (ServiceEntityNotFoundException e){
+                throw new ControllerEntityNotFoundException(HttpStatus.NOT_FOUND, e.getMessage());
+            }
     }
 }
