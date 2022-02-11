@@ -36,12 +36,12 @@ public class AzureGroupService {
         return mapper.azureGroupToAzureGroupDto(groupRepository.save(group));
     }
 
-    public AzureGroupDto addMemberToGroup(String azureUserId, String azureGroupId){
+    public AzureGroupMembersDto addMemberToGroup(String azureUserId, String azureGroupId){
         var user = userRepository.findById(azureUserId).orElseThrow(() -> new AppEntityNotFoundException("No user found with the specified id."));
         var group = groupRepository.findById(azureGroupId).orElseThrow(() -> new AppEntityNotFoundException("No group found with the specified id."));
         user.addToGroup(group);
         userRepository.save(user);
-        return mapper.azureGroupToAzureGroupDto(groupRepository.save(group));
+        return mapper.azureGroupToAzureGroupMembersDto(groupRepository.save(group));
     }
 
 
