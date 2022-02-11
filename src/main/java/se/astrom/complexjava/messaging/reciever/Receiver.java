@@ -21,6 +21,7 @@ public class Receiver {
         this.groupService = groupService;
     }
 
+    //Listens for sync messages from external sender. Payload contains Azure groups to be synced.
     @JmsListener(destination = JMSConfig.M_365_LICENSES_IN_QUEUE)
     public void syncGroupMembers(@Payload Iterable<AzureGroupDto> groupDtos){
         for(AzureGroupDto group : groupDtos){
