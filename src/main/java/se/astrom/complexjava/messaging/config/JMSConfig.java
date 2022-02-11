@@ -15,7 +15,8 @@ import java.time.format.DateTimeFormatter;
 @Configuration
 public class JMSConfig {
 
-    public static final String M_365_LICENSES_QUEUE = "m365licenses-queue";
+    public static final String M_365_LICENSES_OUT_QUEUE = "m365licenses-out-queue";
+    public static final String M_365_LICENSES_IN_QUEUE = "m365licenses-in-queue";
 
     @Bean
     public MessageConverter messageConverter() {
