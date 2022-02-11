@@ -1,8 +1,8 @@
-#Microsoft 365 Licenses project
+# Microsoft 365 Licenses project
 
-##Backend for handling Microsoft 365 licenses for an Azure AD tenant.
+## Backend for handling Microsoft 365 licenses for an Azure AD tenant.
 
-###Swagger docs: http://<environment-url>/swagger-ui.html
+### Swagger docs: http://{environment-url}/swagger-ui.html
 
 Default user has ADMIN role. Use basic auth: 
 username = admin
