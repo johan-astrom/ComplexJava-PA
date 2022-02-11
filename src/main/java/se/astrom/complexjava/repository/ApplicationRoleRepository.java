@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 import se.astrom.complexjava.entity.ApplicationRole;
 import se.astrom.complexjava.entity.ApplicationUser;
 
+import java.util.Optional;
+
 @Repository
 public interface ApplicationRoleRepository extends CrudRepository<ApplicationRole, Long> {
-    ApplicationRole findByRole(String role);
+    Optional<ApplicationRole> findByRole(String role);
 }

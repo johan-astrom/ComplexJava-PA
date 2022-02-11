@@ -6,6 +6,7 @@ import se.astrom.complexjava.dto.ApplicationUserGetDto;
 import se.astrom.complexjava.dto.ApplicationUserPostDto;
 import se.astrom.complexjava.entity.ApplicationRole;
 import se.astrom.complexjava.entity.ApplicationUser;
+import se.astrom.complexjava.exception.AppAuthorizationException;
 import se.astrom.complexjava.mapper.Microsoft365LicensesMapper;
 import se.astrom.complexjava.repository.ApplicationRoleRepository;
 import se.astrom.complexjava.repository.ApplicationUserRepository;
@@ -33,7 +34,7 @@ public class ApplicationUserService {
     public ApplicationUserGetDto createUser(ApplicationUserPostDto userPostDto, String role){
         ApplicationUser appUser = mapper.appUserPostDtoToAppUser(userPostDto);
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
-        ApplicationRole roleToGrant = roleRepository.findByRole("ROLE_" + role);
+        ApplicationRole roleToGrant = roleRepository.findByRole("ROLE_" + role).orElseThrow(() -> new AppAuthorizationException("Role not found."));
         appUser.grantRole(roleToGrant);
         return mapper.appUserToAppUserGetDto(userRepository.save(appUser));
     }

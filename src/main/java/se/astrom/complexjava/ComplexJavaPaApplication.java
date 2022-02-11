@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import se.astrom.complexjava.dto.ApplicationUserPostDto;
 import se.astrom.complexjava.entity.ApplicationRole;
 import se.astrom.complexjava.entity.ApplicationUser;
+import se.astrom.complexjava.exception.AppAuthorizationException;
 import se.astrom.complexjava.repository.ApplicationRoleRepository;
 import se.astrom.complexjava.repository.ApplicationUserRepository;
 import se.astrom.complexjava.service.ApplicationUserService;
@@ -33,7 +34,7 @@ public class ComplexJavaPaApplication {
 
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             var appUser = new ApplicationUser("admin", encoder.encode("password"));
-            appUser.grantRole(roleRepository.findByRole("ROLE_ADMIN"));
+            appUser.grantRole(roleRepository.findByRole("ROLE_ADMIN").orElseThrow(() -> new AppAuthorizationException("Role not found.")));
             userRepository.save(appUser);
 
             StringBuilder sb = new StringBuilder();
