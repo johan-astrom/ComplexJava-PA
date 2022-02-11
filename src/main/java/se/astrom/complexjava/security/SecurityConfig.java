@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/home", "/users/signup").permitAll()
+                .antMatchers("/", "/home", "/users/signup", "/swaggerui", "/v2/api-docs").permitAll()
                 .antMatchers("/users/createUserWithRole").hasRole("ADMIN")
                 .antMatchers("/azureUsers", "/licenses").hasAnyRole("ADMIN", "MANAGER")
                 .anyRequest().authenticated()
