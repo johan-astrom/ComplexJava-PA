@@ -16,8 +16,9 @@ public class LicenseOptionService {
     private Microsoft365LicenseRepository licenseRepository;
     private Microsoft365LicensesMapper mapper;
 
-    public LicenseOptionService(LicenseOptionRepository repository, Microsoft365LicensesMapper mapper) {
+    public LicenseOptionService(LicenseOptionRepository repository, Microsoft365LicenseRepository licenseRepository, Microsoft365LicensesMapper mapper) {
         this.repository = repository;
+        this.licenseRepository = licenseRepository;
         this.mapper = mapper;
     }
 
