@@ -24,8 +24,8 @@ public class Sender {
         this.azureGroupService = azureGroupService;
     }
 
-    //Sends the locally stored azure group members to an external reciever for synchronization.
-    @Scheduled(fixedRate = 2000)//cron = "0 0 0 * * ?")
+    //Nightly job that sends the locally stored azure group members to an external receiver for synchronization.
+    @Scheduled(cron = "0 0 0 * * ?")
     public void sendSyncMessage() {
         var groups = azureGroupService.getAzureGroups();
         jmsTemplate.convertAndSend(JMSConfig.M_365_LICENSES_OUT_QUEUE, groups);
