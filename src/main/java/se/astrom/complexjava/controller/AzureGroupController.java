@@ -13,13 +13,17 @@ public class AzureGroupController {
 
     private AzureGroupService azureGroupService;
 
+    public AzureGroupController(AzureGroupService azureGroupService) {
+        this.azureGroupService = azureGroupService;
+    }
+
     @GetMapping
     public ResponseEntity<Iterable<AzureGroupDto>> getAzureGroups(){
         var groups = azureGroupService.getAzureGroups();
         return new ResponseEntity<>(groups, HttpStatus.OK);
     }
 
-    @GetMapping("/groupMembers")
+    @GetMapping("groupMembers")
     public ResponseEntity<AzureGroupMembersDto> getGroupMembers(@RequestParam String groupId){
         var members = azureGroupService.getGroupMembers(groupId);
         return new ResponseEntity<>(members, HttpStatus.OK);
@@ -31,8 +35,8 @@ public class AzureGroupController {
         return new ResponseEntity<>(group, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<AzureGroupMembersDto> addGroupMember(String azureUserId, String azureGroupId){
+    @PutMapping("groupMembers")
+    public ResponseEntity<AzureGroupMembersDto> addGroupMember(@RequestParam String azureUserId, @RequestParam String azureGroupId){
         var groupMembers = azureGroupService.addMemberToGroup(azureUserId, azureGroupId);
         return new ResponseEntity<>(groupMembers, HttpStatus.OK);
     }

@@ -9,9 +9,9 @@ import java.util.Objects;
 public class AzureGroupMembersDto implements Serializable {
 
     private final String displayName;
-    private final List<AzureUser> azureUsers;
+    private final List<AzureUserGetDto> azureUsers;
 
-    public AzureGroupMembersDto(String displayName, List<AzureUser> azureUsers) {
+    public AzureGroupMembersDto(String displayName, List<AzureUserGetDto> azureUsers) {
         this.displayName = displayName;
         this.azureUsers = azureUsers;
     }
@@ -20,7 +20,7 @@ public class AzureGroupMembersDto implements Serializable {
         return displayName;
     }
 
-    public List<AzureUser> getAzureUsers() {
+    public List<AzureUserGetDto> getAzureUsers() {
         return azureUsers;
     }
 
