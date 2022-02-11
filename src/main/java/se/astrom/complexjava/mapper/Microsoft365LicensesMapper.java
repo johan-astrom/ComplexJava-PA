@@ -33,6 +33,8 @@ public interface Microsoft365LicensesMapper {
 
     LicenseOptionDto licenseOptionToLicenseOptionDto(LicenseOption licenseOption);
 
+    Iterable<LicenseOptionDto> licenseOptionIterableToLicenseOptionDtoIterable(Iterable<LicenseOption> licenseOptions);
+
     Microsoft365License microsoft365LicenseDtoToMicrosoft365License(Microsoft365LicenseDto microsoft365LicenseDto);
 
     Microsoft365LicenseDto microsoft365LicenseToMicrosoft365LicenseDto(Microsoft365License microsoft365License);

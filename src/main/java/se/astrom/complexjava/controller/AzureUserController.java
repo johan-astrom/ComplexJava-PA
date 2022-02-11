@@ -42,7 +42,7 @@ public class AzureUserController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<AzureUserGetDto> updateAzureUser(@PathVariable String id, AzureUserGetDto azureUserGetDto){
+    public ResponseEntity<AzureUserGetDto> updateAzureUser(@PathVariable String id, @RequestBody AzureUserGetDto azureUserGetDto){
         var user = azureUserService.updateAzureUser(id, azureUserGetDto);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
