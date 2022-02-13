@@ -23,10 +23,10 @@ import se.astrom.complexjava.security.jwt.JwtUtil;
 @CrossOrigin
 public class JwtAuthenticationController {
 
-    private AuthenticationManager authenticationManager;
-    private JwtUtil jwtUtil;
-    private M365LicensesUserDetailsService userDetailsService;
-    private Logger logger = LoggerFactory.getLogger(JwtAuthenticationController.class);
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
+    private final M365LicensesUserDetailsService userDetailsService;
+    private final Logger logger = LoggerFactory.getLogger(JwtAuthenticationController.class);
 
     public JwtAuthenticationController(AuthenticationManager authenticationManager, JwtUtil jwtUtil, M365LicensesUserDetailsService userDetailsService) {
         this.authenticationManager = authenticationManager;
