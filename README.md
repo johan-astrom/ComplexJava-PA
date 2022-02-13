@@ -5,11 +5,18 @@
 ### Swagger docs: http://{environment-url}/swagger-ui.html
 
 Default user has ADMIN role. Use basic auth: 
-username = admin
-password = password
+- username = admin
+- password = password
 
+### Token retrieval
+Access endpoint /authenticate with basic authentication. Use retrieved token in all subsequent calls.
+
+### Roles and access
 Admin user can reach endpoint /users/createUserWithRole?role="" 
-Set the query param role to ADMIN or MANAGER to access restricted endpoints /licenses and /azureUsers.
+
+Role should be ADMIN, MANAGER or USER.
+
+ADMIN or MANAGER can access restricted endpoints /licenses and /azureUsers.
 
 ### Installation:
 Requirements: Maven and a JDK (Preferrably Java17)

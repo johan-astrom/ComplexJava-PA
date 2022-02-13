@@ -34,13 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
+    public DaoAuthenticationProvider authenticationProvider() {
         var provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(new BCryptPasswordEncoder());
@@ -59,13 +59,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception{
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf().disable()
-//                .httpBasic()
-//                .and()
+                .antMatcher("/authenticate")
+                .httpBasic()
+                .and()
                 .authorizeRequests()
-                .antMatchers("/", "/authenticate", "/users/signup", "/swaggerui", "/v2/api-docs").permitAll()
+                .antMatchers("/", "/users/signup", "/swaggerui", "/v2/api-docs").permitAll()
                 .antMatchers("/users/createUserWithRole").hasRole("ADMIN")
                 .antMatchers("/azureUsers", "/licenses").hasAnyRole("ADMIN", "MANAGER")
                 .anyRequest().authenticated()
