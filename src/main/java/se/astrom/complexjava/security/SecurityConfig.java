@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,6 +22,7 @@ import java.util.Date;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final M365LicensesUserDetailsService userDetailsService;
@@ -67,8 +70,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/", "/users/signup", "/swaggerui", "/v2/api-docs").permitAll()
-                .antMatchers("/users/createUserWithRole").hasRole("ADMIN")
-                .antMatchers("/azureUsers", "/licenses").hasAnyRole("ADMIN", "MANAGER")
+//                .antMatchers("/users/createUserWithRole").hasAuthority("ADMIN")
+//                .antMatchers("/azureUsers", "/licenses").hasAnyAuthority("ADMIN", "MANAGER")
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()

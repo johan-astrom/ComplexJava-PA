@@ -2,6 +2,7 @@ package se.astrom.complexjava.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.astrom.complexjava.dto.AzureUserGetDto;
 import se.astrom.complexjava.dto.AzureUserPostDto;
@@ -11,6 +12,7 @@ import se.astrom.complexjava.service.AzureUserService;
 
 @RestController
 @RequestMapping("azureUsers")
+@PreAuthorize("hasAnyAuthority('ROLE_MANAGER', 'ROLE_ADMIN')")
 public class AzureUserController {
 
     private AzureUserService azureUserService;
