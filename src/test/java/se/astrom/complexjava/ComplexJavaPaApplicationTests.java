@@ -1,37 +1,53 @@
 package se.astrom.complexjava;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JacksonJsonParser;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.client.TestRestTemplateExtensionsKt;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import se.astrom.complexjava.controller.AzureUserController;
 import se.astrom.complexjava.dto.AzureUserGetDto;
 import se.astrom.complexjava.dto.AzureUserPostDto;
-import se.astrom.complexjava.security.jwt.JwtResponse;
-
-import java.util.LinkedHashMap;
-import java.util.Objects;
-import java.util.Optional;
+import se.astrom.complexjava.repository.AzureUserRepository;
+import se.astrom.complexjava.service.AzureUserService;
+import org.hamcrest.Matcher;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest//(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 class ComplexJavaPaApplicationTests {
 
     @Autowired
-    private TestRestTemplate testClient;
+    private AzureUserService azureUserService;
 
-    @LocalServerPort
-    private int port;
+    @Autowired
+    private AzureUserController azureUserController;
+
+    @Autowired
+    private AzureUserRepository azureUserRepository;
+
+    @Autowired
+    private MockMvc mvc;
+
+//    @Autowired
+//    private TestRestTemplate testClient;
+//
+//    @LocalServerPort
+//    private int port;
 
     @Test
-    void contextLoadsAzureUser() {
-
-
-
+    void contextLoads() {
+        assertThat(azureUserController).isNotNull();
+        assertThat(azureUserRepository).isNotNull();
+        assertThat(azureUserService).isNotNull();
 //        String azureUserObjectId = "abc123";
 //        String endpointUrl = "http://localhost:" + port + "/azureUsers";
 //        String authUrl = "http://localhost:" + port + "/authenticate";
@@ -64,5 +80,62 @@ class ComplexJavaPaApplicationTests {
 //        assertThat(patchResult.getStatusCode()).isEqualTo(HttpStatus.OK);
 
     }
+
+    @Test
+    public void azureUserContext() throws Exception {
+        String token = getToken("admin", "password");
+
+        var postAzureUser = new AzureUserPostDto(MockAzureUserService.VALID_ID, "testName",
+                "testPrincipal", "testEmail", "testPhone");
+        ObjectMapper mapper = new ObjectMapper();
+        String azureUserJson = mapper.writeValueAsString(postAzureUser);
+
+        mvc.perform(post("/azureUsers")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType("application/json;charset=UTF-8")
+                        .content(azureUserJson)
+                        .accept("application/json;charset=UTF-8"))
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(jsonPath("$.displayName", is("testName")));
+
+        mvc.perform(get("/azureUsers/" + MockAzureUserService.VALID_ID)
+                        .header("Authorization", "Bearer " + token)
+                        .accept("application/json;charset=UTF-8"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(jsonPath("$.displayName", is("testName")));
+
+        var patchUser = new AzureUserGetDto("testName2",
+                "testPrincipal2", "testEmail2", "testPhone2");
+        String patchUserJson = mapper.writeValueAsString(patchUser);
+
+        mvc.perform(patch("/azureUsers/" + MockAzureUserService.VALID_ID)
+                        .header("Authorization", "Bearer " + token)
+                        .contentType("application/json;charset=UTF-8")
+                        .content(patchUserJson)
+                        .accept("application/json;charset=UTF-8"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(jsonPath("$.displayName", is("testName2")));
+    }
+
+
+//    private String createUser() throws Exception {
+//        String token = getToken("admin", "password");
+//
+//    }
+
+    private String getToken(String username, String password) throws Exception {
+        ResultActions result = mvc.perform(post("/authenticate")
+                        .with(httpBasic(username, password))
+                        .accept("application/json;charset=UTF-8"))
+                .andExpect(status().isOk());
+        String resultString = result.andReturn().getResponse().getContentAsString();
+
+        JacksonJsonParser jsonParser = new JacksonJsonParser();
+        return jsonParser.parseMap(resultString).get("token").toString();
+    }
+
 
 }
