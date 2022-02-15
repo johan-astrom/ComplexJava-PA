@@ -42,8 +42,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                     FilterChain chain) throws ServletException, IOException {
         final String requestTokenHeader = request.getHeader("Authorization");
 
-        String username;
-        String jwt;
+        String username = "";
+        String jwt = "";
 
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwt = requestTokenHeader.substring(7);
@@ -55,7 +55,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 throw new AppJwtException(HttpStatus.UNAUTHORIZED, "Token expired: " + e.getMessage());
             }
         } else {
-            throw new AppJwtException(HttpStatus.UNAUTHORIZED, "Invalid Authorization header: Bearer token required");
+            System.out.println("Invalid Authorization header: Bearer token required");
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);

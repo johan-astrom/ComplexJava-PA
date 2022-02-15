@@ -25,3 +25,6 @@ Requirements: Maven and a JDK (Preferrably Java17)
 - Navigate to project root
 - Open terminal, run mvn package
 - Run java -jar ./target/ComplexJava-PA-Astrom-1.0.0.jar
+
+#### About
+Unit and integration tests are written for AzureUser classes.

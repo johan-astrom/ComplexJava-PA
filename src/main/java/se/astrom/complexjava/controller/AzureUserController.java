@@ -9,13 +9,14 @@ import se.astrom.complexjava.dto.AzureUserPostDto;
 import se.astrom.complexjava.exception.ControllerEntityNotFoundException;
 import se.astrom.complexjava.exception.ServiceEntityNotFoundException;
 import se.astrom.complexjava.service.AzureUserService;
+import se.astrom.complexjava.service.AzureUserServiceImpl;
 
 @RestController
 @RequestMapping("azureUsers")
 @PreAuthorize("hasAnyAuthority('ROLE_MANAGER', 'ROLE_ADMIN')")
 public class AzureUserController {
 
-    private AzureUserService azureUserService;
+    private final AzureUserService azureUserService;
 
     public AzureUserController(AzureUserService azureUserService) {
         this.azureUserService = azureUserService;
