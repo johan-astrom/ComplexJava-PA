@@ -2,10 +2,12 @@ package se.astrom.complexjava.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.astrom.complexjava.dto.Microsoft365LicenseDto;
 import se.astrom.complexjava.service.LicenseService;
 
+@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')")
 @RestController
 @RequestMapping("licenses")
 public class LicenseController {

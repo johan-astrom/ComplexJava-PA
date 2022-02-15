@@ -2,6 +2,7 @@ package se.astrom.complexjava.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import se.astrom.complexjava.dto.ApplicationUserGetDto;
@@ -43,6 +44,7 @@ public class ApplicationUserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("createUserWithRole")
     public ResponseEntity<ApplicationUserGetDto> createUser(@RequestBody ApplicationUserPostDto appUserPostDto, @RequestParam String role){
         try {
