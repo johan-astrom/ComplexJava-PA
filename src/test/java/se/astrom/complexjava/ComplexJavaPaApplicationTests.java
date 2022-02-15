@@ -5,18 +5,25 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import se.astrom.complexjava.controller.AzureUserController;
+import se.astrom.complexjava.dto.ApplicationUserPostDto;
 import se.astrom.complexjava.dto.AzureUserGetDto;
 import se.astrom.complexjava.dto.AzureUserPostDto;
+import se.astrom.complexjava.exception.AppJwtException;
 import se.astrom.complexjava.repository.AzureUserRepository;
 import se.astrom.complexjava.service.AzureUserService;
 import org.hamcrest.Matcher;
 
+import org.springframework.security.access.AccessDeniedException;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -118,13 +125,30 @@ class ComplexJavaPaApplicationTests {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.displayName", is("testName2")));
+
+        mvc.perform(delete("/azureUsers/" + MockAzureUserService.VALID_ID)
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isNoContent());
     }
 
+    @Test
+    public void userContext() throws Exception {
+        String token = getToken("admin", "password");
 
-//    private String createUser() throws Exception {
-//        String token = getToken("admin", "password");
-//
-//    }
+        var appUser = new ApplicationUserPostDto("user", "password");
+        ObjectMapper mapper = new ObjectMapper();
+        String appUserJson = mapper.writeValueAsString(appUser);
+
+        mvc.perform(post("/users/createUserWithRole")
+                        .param("role", "USER")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType("application/json;charset=UTF-8")
+                        .content(appUserJson)
+                        .accept("application/json;charset=UTF-8"))
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(jsonPath("$.username", is("user")));
+    }
 
     private String getToken(String username, String password) throws Exception {
         ResultActions result = mvc.perform(post("/authenticate")

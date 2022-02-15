@@ -55,7 +55,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 throw new AppJwtException(HttpStatus.UNAUTHORIZED, "Token expired: " + e.getMessage());
             }
         } else {
-            System.out.println("Invalid Authorization header: Bearer token required");
+            throw new AppJwtException(HttpStatus.UNAUTHORIZED, "Invalid Authorization header: Bearer token required");
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
