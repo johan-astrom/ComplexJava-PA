@@ -33,7 +33,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException{
-        return new AntPathMatcher().match("/authenticate", request.getRequestURI());
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+        return antPathMatcher.match("/authenticate", request.getRequestURI()) ||
+                antPathMatcher.match("/users/signup", request.getRequestURI()) ||
+                antPathMatcher.match("/swagger-ui.html", request.getRequestURI()) ||
+                antPathMatcher.match("/swagger-resources/**", request.getRequestURI()) ||
+                antPathMatcher.match("/webjars/**", request.getRequestURI()) ||
+                antPathMatcher.match("/v2/api-docs", request.getRequestURI());
     }
 
     @Override
